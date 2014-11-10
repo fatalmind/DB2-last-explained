@@ -21,6 +21,8 @@ Usage
 Just query the view:
 
     select * from last_explained;
+    
+Please have a look at this short overview of the most common execution plan operations you might see: http://use-the-index-luke.com/sql/explain-plan/db2/operations
   
 Caveats
 -------
