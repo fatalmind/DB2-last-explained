@@ -1,6 +1,3 @@
--- Copyright (c) 2014, Markus Winand
--- Info & license: http://use-the-index-luke.com/s/last_explained
---
 --#SET TERMINATOR ;
 
 CREATE OR REPLACE VIEW last_explained AS
@@ -42,6 +39,8 @@ SELECT CAST(   LPAD(id,        MAX(LENGTH(id))        OVER(), ' ')
             || ' | ' 
             || LPAD(rows,      MAX(LENGTH(rows))      OVER(), ' ')
             || ' | ' 
+            || LPAD(ActualRows, MAX(LENGTH(ActualRows)) OVER(), ' ')
+            || ' | ' 
             || LPAD(cost,      MAX(LENGTH(cost))      OVER(), ' ')
          AS VARCHAR(100)) "Explain Plan"
      , path
@@ -49,6 +48,7 @@ SELECT CAST(   LPAD(id,        MAX(LENGTH(id))        OVER(), ' ')
 SELECT 'ID' ID
      , 'Operation' Operation
      , 'Rows' Rows
+     , 'ActualRows' ActualRows
      , 'Cost' Cost
      , '0' Path
   FROM SYSIBM.SYSDUMMY1
@@ -69,6 +69,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
           )
        AS VARCHAR(254)) AS OPERATION
      , COALESCE(CAST(rows AS VARCHAR(254)), '') Rows
+     , COALESCE(CAST(ActualRows as VARCHAR(254)), '') ActualRows
      , COALESCE(CAST(CAST(O.Total_Cost AS INTEGER) AS VARCHAR(254)), '') Cost
      , path
   FROM tree
@@ -85,6 +86,17 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
                    || '%)'
                    ELSE ''
                    END rows
+              , CASE WHEN act.actual_value is not null then
+                CAST(CAST(ROUND(act.actual_value) AS INTEGER) AS VARCHAR(12))
+                || ' of '
+                || CAST (total_rows AS VARCHAR(12))
+                || CASE WHEN total_rows > 0 THEN
+                   ' ('
+                   || LPAD(CAST (ROUND(ROUND(act.actual_value)/total_rows*100,2)
+                          AS NUMERIC(5,2)), 6, ' ')
+                   || '%)'
+                   ELSE ''
+                   END END ActualRows
               , i.object_name
               , i.explain_time
          FROM (SELECT MAX(source_id) source_id
@@ -101,6 +113,11 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
          LEFT JOIN SYSTOOLS.EXPLAIN_STREAM O
            ON (    I.target_id=o.source_id
                AND I.explain_time = o.explain_time
+              )
+         LEFT JOIN SYSTOOLS.EXPLAIN_ACTUALS act
+           ON (    act.operator_id  = i.target_id
+               AND act.explain_time = i.explain_time
+               AND act.ACTUAL_TYPE  like 'CARDINALITY%'
               )
        ) s
     ON (    s.target_id    = tree.operator_id
@@ -145,10 +162,13 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
        )
      ) O
 UNION ALL
-SELECT 'Explain plan (c) 2014 by Markus Winand - NO WARRANTY - V20141103'
+SELECT 'Explain plan by Markus Winand - NO WARRANTY'
      , 'Z0' FROM SYSIBM.SYSDUMMY1
 UNION ALL
-SELECT 'Info & license: http://use-the-index-luke.com/s/last_explained'
+SELECT 'http://use-the-index-luke.com/s/last_explained'
+     , 'Z1' FROM SYSIBM.SYSDUMMY1
+UNION ALL
+SELECT 'Modifications by Ember Crooks - NO WARRANTY'
      , 'Z1' FROM SYSIBM.SYSDUMMY1
 UNION ALL
 SELECT '', 'A' FROM SYSIBM.SYSDUMMY1
