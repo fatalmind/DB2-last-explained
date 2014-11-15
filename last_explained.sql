@@ -1,3 +1,7 @@
+-- Copyright (c) 2014, Markus Winand - NO WARRANTY
+-- Modifications by Ember Crooks - NO WARRANTY
+-- Info & license: http://use-the-index-luke.com/s/last_explained
+--
 --#SET TERMINATOR ;
 
 CREATE OR REPLACE VIEW last_explained AS
@@ -162,14 +166,14 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
        )
      ) O
 UNION ALL
-SELECT 'Explain plan by Markus Winand - NO WARRANTY'
+SELECT 'Explain plan (c) 2014 by Markus Winand - NO WARRANTY - V20141115'
      , 'Z0' FROM SYSIBM.SYSDUMMY1
-UNION ALL
-SELECT 'http://use-the-index-luke.com/s/last_explained'
-     , 'Z1' FROM SYSIBM.SYSDUMMY1
 UNION ALL
 SELECT 'Modifications by Ember Crooks - NO WARRANTY'
      , 'Z1' FROM SYSIBM.SYSDUMMY1
+UNION ALL
+SELECT 'http://use-the-index-luke.com/s/last_explained'
+     , 'Z2' FROM SYSIBM.SYSDUMMY1
 UNION ALL
 SELECT '', 'A' FROM SYSIBM.SYSDUMMY1
 UNION ALL
