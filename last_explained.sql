@@ -43,8 +43,11 @@ SELECT CAST(   LPAD(id,        MAX(LENGTH(id))        OVER(), ' ')
             || ' | ' 
             || LPAD(rows,      MAX(LENGTH(rows))      OVER(), ' ')
             || ' | ' 
-            || LPAD(ActualRows, MAX(LENGTH(ActualRows)) OVER(), ' ')
-            || ' | ' 
+            -- Don't show ActualRows columns if there are no actuals available at all 
+            || CASE WHEN COUNT(ActualRows) OVER () > 1 -- the heading 'ActualRows' is always present, so "1" means no OTHER values
+                    THEN LPAD(ActualRows, MAX(LENGTH(ActualRows)) OVER(), ' ') || ' | ' 
+                    ELSE ''
+               END
             || LPAD(cost,      MAX(LENGTH(cost))      OVER(), ' ')
          AS VARCHAR(100)) "Explain Plan"
      , path
@@ -73,7 +76,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
           )
        AS VARCHAR(254)) AS OPERATION
      , COALESCE(CAST(rows AS VARCHAR(254)), '') Rows
-     , COALESCE(CAST(ActualRows as VARCHAR(254)), '') ActualRows
+     , CAST(ActualRows as VARCHAR(254)) ActualRows -- note: no coalesce
      , COALESCE(CAST(CAST(O.Total_Cost AS INTEGER) AS VARCHAR(254)), '') Cost
      , path
   FROM tree
@@ -99,7 +102,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
                    || LPAD(CAST (ROUND(ROUND(act.actual_value)/total_rows*100,2)
                           AS NUMERIC(5,2)), 6, ' ')
                    || '%)'
-                   ELSE ''
+                   ELSE NULL
                    END END ActualRows
               , i.object_name
               , i.explain_time
