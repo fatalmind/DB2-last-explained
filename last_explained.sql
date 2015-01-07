@@ -77,7 +77,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
        AS VARCHAR(254)) AS OPERATION
      , COALESCE(CAST(rows AS VARCHAR(254)), '') Rows
      , CAST(ActualRows as VARCHAR(254)) ActualRows -- note: no coalesce
-     , COALESCE(CAST(CAST(O.Total_Cost AS INTEGER) AS VARCHAR(254)), '') Cost
+     , COALESCE(CAST(CAST(O.Total_Cost AS BIGINT) AS VARCHAR(254)), '') Cost
      , path
   FROM tree
   LEFT JOIN ( SELECT i.source_id
