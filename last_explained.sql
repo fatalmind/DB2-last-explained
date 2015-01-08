@@ -169,7 +169,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
        )
      ) O
 UNION ALL
-SELECT 'Explain plan (c) 2014 by Markus Winand - NO WARRANTY - V20141115'
+SELECT 'Explain plan (c) 2014-2015 by Markus Winand - NO WARRANTY - V20150107'
      , 'Z0' FROM SYSIBM.SYSDUMMY1
 UNION ALL
 SELECT 'Modifications by Ember Crooks - NO WARRANTY'
