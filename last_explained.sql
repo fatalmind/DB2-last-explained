@@ -1,4 +1,4 @@
--- Copyright (c) 2014, Markus Winand - NO WARRANTY
+-- Copyright (c) 2014-2015, Markus Winand - NO WARRANTY
 -- Modifications by Ember Crooks - NO WARRANTY
 -- Info & license: http://use-the-index-luke.com/s/last_explained
 --
