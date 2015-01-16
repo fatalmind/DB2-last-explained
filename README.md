@@ -27,6 +27,6 @@ Please have a look at this short overview of the most common execution plan oper
 Caveats
 -------
 
-Not really suitable for multi-use scenario because it will just display the most recent execution plan gathered with `explain`. If another user does an `explain` between your `explain` and `select * from last_explained`, you'll get the execution plan form the other user's statement.
+The view displays the most recent execution plan gathered by the current user (as reported by SESSION_USER). If another person uses the same database user and does an `explain` between your `explain` and `select * from last_explained`, you'll get the execution plan form the other user's statement.
 
 
