@@ -137,7 +137,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
   LEFT JOIN (SELECT LISTAGG (CASE argument_type
                              WHEN 'UNIQUE' THEN
                                   CASE WHEN argument_value = 'TRUE'
-                                       THEN 'UNQIUE'
+                                       THEN 'UNIQUE'
                                   ELSE NULL
                                   END
                              WHEN 'TRUNCSRT' THEN
