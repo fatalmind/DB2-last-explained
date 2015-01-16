@@ -14,6 +14,7 @@ SELECT 1 operator_id
      , max(explain_time) explain_time
      , 0
   FROM SYSTOOLS.EXPLAIN_OPERATOR O
+ WHERE O.EXPLAIN_REQUESTER = SESSION_USER
 
 UNION ALL
 
@@ -30,6 +31,7 @@ SELECT s.source_id
  WHERE s.target_id    = tree.operator_id
    AND s.explain_time = tree.explain_time
    AND S.Object_Name IS NULL
+   AND S.explain_requester = SESSION_USER
    AND tree.cycle = 0
    AND level < 100
 )
@@ -114,16 +116,19 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
                  FROM SYSTOOLS.EXPLAIN_STREAM
                 WHERE explain_time = (SELECT MAX(explain_time)
                                         FROM SYSTOOLS.EXPLAIN_OPERATOR
+                                       WHERE EXPLAIN_REQUESTER = SESSION_USER
                                      )
                 GROUP BY target_id, explain_time
               ) I
          LEFT JOIN SYSTOOLS.EXPLAIN_STREAM O
            ON (    I.target_id=o.source_id
                AND I.explain_time = o.explain_time
+               AND O.EXPLAIN_REQUESTER = SESSION_USER
               )
          LEFT JOIN SYSTOOLS.EXPLAIN_ACTUALS act
            ON (    act.operator_id  = i.target_id
                AND act.explain_time = i.explain_time
+               AND act.explain_requester = SESSION_USER
                AND act.ACTUAL_TYPE  like 'CARDINALITY%'
               )
        ) s
@@ -133,6 +138,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
   LEFT JOIN SYSTOOLS.EXPLAIN_OPERATOR O
     ON (    o.operator_id  = tree.operator_id
         AND o.explain_time = tree.explain_time
+        AND o.explain_requester = SESSION_USER
        ) 
   LEFT JOIN (SELECT LISTAGG (CASE argument_type
                              WHEN 'UNIQUE' THEN
@@ -161,6 +167,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
                                      , 'SCANDIR' -- IXSCAN, TBSCAN
                                      , 'OUTERJN' -- JOINs
                                      )
+                AND explain_requester = SESSION_USER
               GROUP BY explain_time, operator_id
 
             ) A
@@ -169,7 +176,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
        )
      ) O
 UNION ALL
-SELECT 'Explain plan (c) 2014-2015 by Markus Winand - NO WARRANTY - V20150107'
+SELECT 'Explain plan (c) 2014-2015 by Markus Winand - NO WARRANTY - V20150116'
      , 'Z0' FROM SYSIBM.SYSDUMMY1
 UNION ALL
 SELECT 'Modifications by Ember Crooks - NO WARRANTY'
