@@ -1,7 +1,27 @@
 DB2-last-explained
 ==================
 
-DB2 view to display the execution plan of the last explained statement
+A DB2 view to display the execution plan of the last statement the current user explained.
+
+It can be used right from the DB2 prompt without the need for a local installation of other tools like `db2exfmt` or `b2expln`. Its output is more dense and thus faster to gasp.
+
+
+```
+db2 => EXPLAIN PLAN FOR SELECT 1 FROM sysibm.sysdummy1;
+
+db2 => select * from last_explained;
+
+Explain Plan                                                                                        
+----------------------------------------------
+ID | Operation      |             Rows | Cost                                                       
+ 1 | RETURN         |                  |    0                                                       
+ 2 |  TBSCAN GENROW | 1 of 1 (100.00%) |    0                                                       
+                                                                                                    
+Predicate Information                                                                               
+                                                                                                    
+Explain plan by Markus Winand - NO WARRANTY                                                         
+http://use-the-index-luke.com/s/last_explained 
+```
 
 System Requirements
 -------------------
