@@ -84,7 +84,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
   FROM tree
   LEFT JOIN ( SELECT i.source_id
               , i.target_id
-              , CAST(CAST(ROUND(o.stream_count) AS INTEGER) AS VARCHAR(12))
+              , CAST(CAST(ROUND(o.stream_count) AS BIGINT) AS VARCHAR(12))
                 || ' of '
                 || CAST (total_rows AS VARCHAR(12))
                 || CASE WHEN total_rows > 0
@@ -96,7 +96,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
                    ELSE ''
                    END rows
               , CASE WHEN act.actual_value is not null then
-                CAST(CAST(ROUND(act.actual_value) AS INTEGER) AS VARCHAR(12))
+                CAST(CAST(ROUND(act.actual_value) AS BIGINT) AS VARCHAR(12))
                 || ' of '
                 || CAST (total_rows AS VARCHAR(12))
                 || CASE WHEN total_rows > 0 THEN
@@ -110,7 +110,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
               , i.explain_time
          FROM (SELECT MAX(source_id) source_id
                     , target_id
-                    , MIN(CAST(ROUND(stream_count,0) AS INTEGER)) total_rows
+                    , MIN(CAST(ROUND(stream_count,0) AS BIGINT)) total_rows
                     , CAST(LISTAGG(object_name) AS VARCHAR(50)) object_name
                     , explain_time
                  FROM SYSTOOLS.EXPLAIN_STREAM
@@ -176,7 +176,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
        )
      ) O
 UNION ALL
-SELECT 'Explain plan (c) 2014-2015 by Markus Winand - NO WARRANTY - V20150116'
+SELECT 'Explain plan (c) 2014-2015 by Markus Winand - NO WARRANTY - V20151017'
      , 'Z0' FROM SYSIBM.SYSDUMMY1
 UNION ALL
 SELECT 'Modifications by Ember Crooks - NO WARRANTY'
