@@ -3,7 +3,7 @@ DB2-last-explained
 
 A DB2 view to display the execution plan of the last statement the current user explained.
 
-It can be used right from the DB2 prompt without the need for a local installation of other tools like `db2exfmt` or `b2expln`. Its output is more dense and thus faster to gasp.
+It can be used right from the DB2 prompt without the need for a local installation of other tools like `db2exfmt` or `db2expln`. Its output is more dense and thus faster to gasp.
 
 
 ```
@@ -47,6 +47,6 @@ Please have a look at this short overview of the most common execution plan oper
 Caveats
 -------
 
-The view displays the most recent execution plan gathered by the current user (as reported by SESSION_USER). If another person uses the same database user and does an `explain` between your `explain` and `select * from last_explained`, you'll get the execution plan form the other user's statement.
+The view displays the most recent execution plan gathered by the current user (as reported by `SESSION_USER`). If another person uses the same database user and does an `explain` between your `explain` and `select * from last_explained`, you'll get the execution plan form the other user's statement.
 
 
