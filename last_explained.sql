@@ -1,4 +1,4 @@
--- Copyright (c) 2014-2015, Markus Winand - NO WARRANTY
+-- Copyright (c) 2014-2016, Markus Winand - NO WARRANTY
 -- Modifications by Ember Crooks - NO WARRANTY
 -- Info & license: http://use-the-index-luke.com/s/last_explained
 --
@@ -22,10 +22,7 @@ SELECT s.source_id
      , level + 1
      , tree.path || '/' || LPAD(CAST(s.source_id AS VARCHAR(3)), 3, '0')  path
      , tree.explain_time
-     , CASE WHEN (POSITION(path IN '%/' || LPAD(CAST(s.source_id AS VARCHAR(3)), 3, '0')  || '/%' USING OCTETS) >0)
-            THEN 1
-            ELSE 0
-       END
+     , POSITION('/' || LPAD(CAST(s.source_id AS VARCHAR(3)), 3, '0')  || '/' IN path USING OCTETS)
   FROM tree
      , SYSTOOLS.EXPLAIN_STREAM S
  WHERE s.target_id    = tree.operator_id
@@ -176,7 +173,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
        )
      ) O
 UNION ALL
-SELECT 'Explain plan (c) 2014-2015 by Markus Winand - NO WARRANTY - V20151017'
+SELECT 'Explain plan (c) 2014-2016 by Markus Winand - NO WARRANTY - V20161027'
      , 'Z0' FROM SYSIBM.SYSDUMMY1
 UNION ALL
 SELECT 'Modifications by Ember Crooks - NO WARRANTY'
