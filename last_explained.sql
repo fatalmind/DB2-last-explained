@@ -1,4 +1,4 @@
--- Copyright (c) 2014-2016, Markus Winand - NO WARRANTY
+-- Copyright (c) 2014-2017, Markus Winand - NO WARRANTY
 -- Modifications by Ember Crooks - NO WARRANTY
 -- Info & license: http://use-the-index-luke.com/s/last_explained
 --
@@ -173,20 +173,12 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
        )
      ) O
 UNION ALL
-SELECT 'Explain plan (c) 2014-2016 by Markus Winand - NO WARRANTY - V20161027'
-     , 'Z0' FROM SYSIBM.SYSDUMMY1
-UNION ALL
-SELECT 'Modifications by Ember Crooks - NO WARRANTY'
-     , 'Z1' FROM SYSIBM.SYSDUMMY1
-UNION ALL
-SELECT 'http://use-the-index-luke.com/s/last_explained'
-     , 'Z2' FROM SYSIBM.SYSDUMMY1
-UNION ALL
-SELECT '', 'A' FROM SYSIBM.SYSDUMMY1
-UNION ALL
-SELECT '', 'Y' FROM SYSIBM.SYSDUMMY1
-UNION ALL
-SELECT 'Predicate Information', 'AA' FROM SYSIBM.SYSDUMMY1
+VALUES ('Explain plan (c) 2014-2017 by Markus Winand - NO WARRANTY - V20171102','Z0')
+    ,  ('Modifications by Ember Crooks - NO WARRANTY','Z1')
+    ,  ('http://use-the-index-luke.com/s/last_explained','Z2')
+    ,  ('', 'A')
+    ,  ('', 'Y')
+    ,  ('Predicate Information', 'AA')
 UNION ALL
 SELECT CAST (LPAD(CASE WHEN operator_id = LAG  (operator_id)
                                           OVER (PARTITION BY operator_id
