@@ -27,7 +27,7 @@ SELECT s.source_id AS operator_id
      , SYSTOOLS.EXPLAIN_STREAM S
  WHERE s.target_id    = tree.operator_id
    AND s.explain_time = tree.explain_time
-   AND S.Object_Name IS NULL
+   AND s.source_type = 'O'
    AND S.explain_requester = SESSION_USER
    AND tree.cycle = 0
    AND level < 100
@@ -36,13 +36,18 @@ SELECT tree.parent
      , XMLELEMENT(NAME "operation"
                  , XMLATTRIBUTES(tree.operator_id                   AS "operation_id"
                                , TRIM(CAST(operator_type  AS VARCHAR(6))) AS "operator_type"
-                               , object_name                        AS "object_name"
                                , CAST(rows           AS BIGINT    ) AS "rows"
                                , CAST(TOTAL_COST     AS BIGINT    ) AS "total_cost"
                                , CAST(IO_COST        AS BIGINT    ) AS "io_cost"
                                , CAST(CPU_COST       AS BIGINT    ) AS "cpu_cost"
                                , CAST(FIRST_ROW_COST AS BIGINT    ) AS "first_row_cost"
                                , CAST(BUFFERS        AS BIGINT    ) AS "buffers"
+                               , (SELECT object_name
+                                    FROM SYSTOOLS.EXPLAIN_STREAM s
+                                   WHERE s.explain_time = tree.explain_time
+                                     AND s.target_id = tree.operator_id
+                                     AND s.object_name IS NOT NULL
+                                 )  AS "object_name"
                                )
      , (SELECT XMLAGG(XMLELEMENT(NAME "argument"
                                , XMLATTRIBUTES(TRIM(argument_type) AS "type"

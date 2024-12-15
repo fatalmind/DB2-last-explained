@@ -20,7 +20,7 @@ ID | Operation      |             Rows | Cost
 Predicate Information                                                                               
                                                                                                     
 Explain plan by Markus Winand - NO WARRANTY                                                         
-http://use-the-index-luke.com/s/last_explained 
+https://use-the-index-luke.com/s/last_explained 
 ```
 
 System Requirements
@@ -33,7 +33,7 @@ Note that it will not work on 9.7 Express-C which used to be on Fix Pack 2 witho
 Installation
 ------------
 
-Just create the view wherever you like. If not done yet, you'll need to install the explain tables first. Please find all the details here: http://use-the-index-luke.com/sql/explain-plan/db2/getting-an-execution-plan
+Just create the view wherever you like. If not done yet, you'll need to install the explain tables first. Please find all the details here: https://use-the-index-luke.com/sql/explain-plan/db2/getting-an-execution-plan
 
 Usage
 -----
@@ -42,7 +42,7 @@ Just query the view:
 
     select * from last_explained;
     
-Please have a look at this short overview of the most common execution plan operations you might see: http://use-the-index-luke.com/sql/explain-plan/db2/operations
+Please have a look at this short overview of the most common execution plan operations you might see: https://use-the-index-luke.com/sql/explain-plan/db2/operations
   
 Caveats
 -------

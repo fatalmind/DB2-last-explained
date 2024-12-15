@@ -1,6 +1,6 @@
 -- Copyright (c) 2014-2017, Markus Winand - NO WARRANTY
 -- Modifications by Ember Crooks - NO WARRANTY
--- Info & license: http://use-the-index-luke.com/s/last_explained
+-- Info & license: https://use-the-index-luke.com/s/last_explained
 --
 --#SET TERMINATOR ;
 
@@ -175,7 +175,7 @@ SELECT CAST(tree.operator_id as VARCHAR(254)) ID
 UNION ALL
 VALUES ('Explain plan (c) 2014-2017 by Markus Winand - NO WARRANTY - V20171102','Z0')
     ,  ('Modifications by Ember Crooks - NO WARRANTY','Z1')
-    ,  ('http://use-the-index-luke.com/s/last_explained','Z2')
+    ,  ('https://use-the-index-luke.com/s/last_explained','Z2')
     ,  ('', 'A')
     ,  ('', 'Y')
     ,  ('Predicate Information', 'AA')
